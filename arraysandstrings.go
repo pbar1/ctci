@@ -50,3 +50,48 @@ func URLify(s string, trueLen int) string {
 func PalindromePermutation(s string) bool {
 	return false
 }
+
+// OneAway checks if before is <= 1 edit away from after (insert, remove, replace)
+func OneAway(before, after string) bool {
+	if before == after {
+		return true
+	}
+
+	var l int
+	var beforeRev, afterRev string
+	if len(before) == len(after) {
+		l = len(before)
+		beforeRev = before
+		afterRev = after
+	} else if len(before) == len(after)+1 {
+		l = len(before)
+		beforeRev = before
+		afterRev = " " + after
+		after += " "
+	} else if len(before) == len(after)-1 {
+		l = len(after)
+		afterRev = after
+		beforeRev = " " + before
+		before += " "
+	} else {
+		return false
+	}
+
+	var forwardDiff int
+	for i := 0; i < l; i++ {
+		if before[i] != after[i] {
+			forwardDiff = i
+			break
+		}
+	}
+
+	var backwardDiff int
+	for i := l - 1; i >= 0; i-- {
+		if beforeRev[i] != afterRev[i] {
+			backwardDiff = i
+			break
+		}
+	}
+
+	return forwardDiff == backwardDiff
+}

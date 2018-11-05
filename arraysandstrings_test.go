@@ -64,3 +64,28 @@ func TestPalindromePermutation(t *testing.T) {
 		})
 	}
 }
+
+func TestOneAway(t *testing.T) {
+	type args struct {
+		before string
+		after  string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"Zero", args{"pale", "pale"}, true},
+		{"Remove in", args{"pale", "ple"}, true},
+		{"Remove last", args{"pales", "pale"}, true},
+		{"Replace", args{"pale", "bale"}, true},
+		{"More than one away", args{"pale", "bake"}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := OneAway(tt.args.before, tt.args.after); got != tt.want {
+				t.Errorf("OneAway() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
